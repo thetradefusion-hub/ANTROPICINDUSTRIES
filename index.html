@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/fav-icon.png" />
+
+    <!-- Default metadata; each route overrides title/description at runtime. -->
+    <title>Anthropic Industries | Technology &amp; Digital Solutions</title>
+    <meta
+      name="description"
+      content="Anthropic Industries Private Limited designs and develops software, AI, cloud, cybersecurity and enterprise technology solutions built around real business needs."
+    />
+    <meta name="theme-color" content="#F7F9FC" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#07090C" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Anthropic Industries" />
+    <meta property="og:title" content="Anthropic Industries | Technology &amp; Digital Solutions" />
+    <meta
+      property="og:description"
+      content="Engineering the future with intelligent technology — software, AI, cloud, cybersecurity and enterprise solutions."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fonts: IBM Plex Sans (display), IBM Plex Mono (technical labels) + Inter (body). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- No-flash theme init: set the theme before first paint. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ai-theme');
+          var theme = stored === 'dark' || stored === 'light' ? stored : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.style.colorScheme = theme;
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

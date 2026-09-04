@@ -1,0 +1,457 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   THEME TOKENS
+   Both themes are explicitly designed (never auto-inverted).
+   Values are RGB channels so Tailwind opacity modifiers work.
+   ============================================================ */
+:root,
+[data-theme='light'] {
+  --c-bg: 247 249 252; /* #F7F9FC */
+  --c-bg-2: 240 244 249; /* #F0F4F9 */
+  --c-surface: 255 255 255; /* #FFFFFF */
+  --c-surface-alt: 240 244 249; /* #F0F4F9 */
+  --c-primary: 37 99 235; /* #2563EB */
+  --c-primary-hover: 29 78 216; /* #1D4ED8 */
+  --c-accent: 59 130 246; /* #3B82F6 */
+  --c-soft: 224 236 255; /* #E0ECFF */
+  --c-fg: 15 23 42; /* #0F172A */
+  --c-fg-2: 71 85 105; /* #475569 */
+  --c-fg-3: 100 116 139; /* #64748B */
+  --c-line: 220 227 236; /* #DCE3EC */
+  --c-line-strong: 199 209 222; /* #C7D1DE */
+  --c-highlight: 37 99 235; /* accent highlight = primary blue in light */
+  --c-cta: 11 17 32;
+  --c-violet: 124 58 237; /* #7C3AED for the rare blue-violet gradient */
+
+  --c-success: 22 163 74;
+  --c-warning: 217 119 6;
+  --c-error: 220 38 38;
+  --c-info: 2 132 199;
+
+  --grad-primary: linear-gradient(135deg, #2563eb, #3b82f6);
+  --grad-soft: linear-gradient(180deg, #e0ecff, #ffffff);
+  --grad-blue-violet: linear-gradient(135deg, #2563eb, #7c3aed);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --c-bg: 7 9 12; /* #07090C */
+  --c-bg-2: 13 17 23; /* #0D1117 */
+  --c-surface: 17 22 29; /* #11161D */
+  --c-surface-alt: 22 28 36; /* #161C24 */
+  --c-primary: 59 130 246; /* brighter blue reads better on near-black */
+  --c-primary-hover: 37 99 235;
+  --c-accent: 59 130 246;
+  --c-soft: 22 28 36; /* faint elevated surface stands in for soft-blue */
+  --c-fg: 245 247 250; /* #F5F7FA */
+  --c-fg-2: 167 175 186; /* #A7AFBA */
+  --c-fg-3: 115 125 137; /* #737D89 */
+  --c-line: 37 44 53; /* #252C35 */
+  --c-line-strong: 53 64 76; /* #35404C */
+  --c-highlight: 85 214 255; /* cyan accent #55D6FF */
+  --c-cta: 22 28 36;
+  --c-violet: 139 124 255; /* #8B7CFF */
+
+  --c-success: 34 197 94;
+  --c-warning: 251 191 36;
+  --c-error: 248 113 113;
+  --c-info: 56 189 248;
+
+  --grad-primary: linear-gradient(135deg, #55d6ff, #3b82f6);
+  --grad-soft: linear-gradient(180deg, #0d1117, #07090c);
+  --grad-blue-violet: linear-gradient(135deg, #55d6ff, #8b7cff);
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  * {
+    border-color: rgb(var(--c-line));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: rgb(var(--c-bg));
+    color: rgb(var(--c-fg));
+    font-family: theme('fontFamily.sans');
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: theme('fontFamily.display');
+    font-weight: 600;
+    color: rgb(var(--c-fg));
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(var(--c-primary) / 0.85);
+    color: #fff;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-primary));
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  /* Quiet scrollbar that respects theme. */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--c-line-strong));
+    border: 3px solid rgb(var(--c-bg));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--c-bg));
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+/* ============================================================
+   COMPONENTS / MOTIFS
+   ============================================================ */
+@layer components {
+  /* Editorial eyebrow label: "01 / WHO WE ARE" */
+  .eyebrow {
+    font-family: theme('fontFamily.mono');
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(var(--c-fg-3));
+  }
+
+  /* Signature: measured blueprint grid. Applied to an absolutely-positioned
+     layer; the parent controls where it shows and it fades at the edges. */
+  .blueprint {
+    background-image:
+      linear-gradient(to right, rgb(var(--c-line) / 0.7) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--c-line) / 0.7) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 40%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(ellipse 75% 75% at 50% 40%, #000 30%, transparent 78%);
+  }
+
+  /* Slow data-flow accent line (used sparingly on dividers). */
+  .flowline {
+    position: relative;
+    overflow: hidden;
+    height: 1px;
+    background: rgb(var(--c-line));
+  }
+  .flowline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, rgb(var(--c-highlight) / 0.9), transparent);
+    animation: flow-x 6s linear infinite;
+  }
+
+  /* Animated link underline that grows from the left. */
+  .link-underline {
+    background-image: linear-gradient(rgb(var(--c-primary)), rgb(var(--c-primary)));
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s var(--ease);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1.5px;
+  }
+
+  .group:hover .icon-container {
+    border-color: rgb(var(--c-primary) / 0.5);
+    background-color: rgb(var(--c-soft) / 0.8);
+    transform: translate3d(2px, -2px, 0);
+  }
+}
+
+/* ============================================================
+   REVEAL — scroll-triggered entrances, opt-in per element.
+   GPU-only (opacity + transform), one clean motion, staggerable.
+   Direction is set per element via [data-reveal-variant].
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(var(--rv-x, 0px), var(--rv-y, 44px), 0) scale(var(--rv-s, 1));
+  transition: opacity 0.72s var(--ease), transform 0.72s var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal-variant='left'] {
+  --rv-x: -48px;
+  --rv-y: 0px;
+}
+[data-reveal-variant='right'] {
+  --rv-x: 48px;
+  --rv-y: 0px;
+}
+[data-reveal-variant='scale'] {
+  --rv-y: 24px;
+  --rv-s: 0.94;
+}
+[data-reveal-variant='fade'] {
+  --rv-y: 0px;
+}
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   MOTION UTILITIES — futuristic but lightweight. Every effect
+   below animates only transform / opacity / background-position
+   so it stays cheap to composite. All are neutralised by the
+   reduced-motion block further down.
+   ============================================================ */
+
+/* Scroll progress rail pinned to the very top of the viewport.
+   Width is driven by --scroll (0 → 1), set from a rAF scroll handler. */
+.scroll-progress {
+  transform: scaleX(var(--scroll, 0));
+  transform-origin: left center;
+  transition: transform 0.1s linear;
+  background-image: linear-gradient(90deg, rgb(var(--c-primary)), rgb(var(--c-highlight)));
+}
+
+/* One-shot entrance for elements that mount already in view (header, hero).
+   Uses an animation so it always plays on mount, independent of the observer. */
+.enter-down {
+  animation: enter-down 0.6s var(--ease) both;
+}
+.enter-fade {
+  animation: enter-fade 0.8s var(--ease) both;
+}
+
+/* Dedicated Home hero entrance; it runs on mount and never waits for scrolling. */
+.hero-load-eyebrow,
+.hero-load-heading,
+.hero-load-description,
+.hero-load-cta,
+.hero-load-visual {
+  opacity: 0;
+  animation: hero-load-up 0.7s var(--ease) both;
+}
+.hero-load-eyebrow {
+  animation-delay: 0ms;
+}
+.hero-load-heading {
+  animation-delay: 100ms;
+}
+.hero-load-description {
+  animation-delay: 200ms;
+}
+.hero-load-visual {
+  animation-name: hero-load-visual;
+  animation-delay: 200ms;
+}
+.hero-load-cta {
+  animation-delay: 300ms;
+}
+
+/* Per-route transition: replays whenever the routed view is keyed anew. */
+.route-view {
+  animation: route-fade 0.28s var(--ease) both;
+}
+
+/* Diagonal light sweep on hover. Host must be position:relative;
+   it is clipped by overflow-hidden on the host. */
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 32%,
+    rgb(var(--c-highlight) / 0.14) 46%,
+    rgb(255 255 255 / 0.16) 50%,
+    rgb(var(--c-highlight) / 0.14) 54%,
+    transparent 68%
+  );
+  transform: translateX(-130%);
+  opacity: 0;
+  transition: transform 0.8s var(--ease), opacity 0.8s var(--ease);
+}
+.group:hover .sheen {
+  transform: translateX(130%);
+  opacity: 1;
+}
+
+/* Vertical scan line that drops through image placeholders on hover. */
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 34%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgb(var(--c-highlight) / 0.55), transparent);
+  transform: translateY(-140%);
+  opacity: 0;
+  transition: transform 1s var(--ease), opacity 1s var(--ease);
+}
+.group:hover .scanline {
+  transform: translateY(360%);
+  opacity: 1;
+}
+
+/* Registration mark that breathes — used sparingly on heroes. */
+.crosshair-pulse {
+  animation: crosshair-pulse 3.5s var(--ease) infinite;
+}
+
+/* Slow drift for the blueprint grid; seamless because it steps one 44px cell. */
+.grid-drift {
+  animation: grid-drift 24s linear infinite;
+}
+
+@keyframes enter-down {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes route-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hero-load-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-load-visual {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes crosshair-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+@keyframes grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 44px 44px;
+  }
+}
+@keyframes flow-x {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION — disable all decorative movement.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .flowline::after {
+    display: none;
+  }
+  /* Keep hover sweeps fully hidden rather than snapping into view. */
+  .sheen,
+  .scanline {
+    display: none !important;
+  }
+  .scroll-progress {
+    transform: scaleX(0) !important;
+  }
+  .grid-drift,
+  .crosshair-pulse,
+  .enter-down,
+  .enter-fade,
+  .route-view,
+  .hero-load-eyebrow,
+  .hero-load-heading,
+  .hero-load-description,
+  .hero-load-cta,
+  .hero-load-visual {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

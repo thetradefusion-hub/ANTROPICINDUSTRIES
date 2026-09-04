@@ -1,8 +1,8 @@
 import {
   BrainCircuit,
   Building2,
-  BriefcaseBusiness,
-  ChartNoAxesCombined,
+  Briefcase,
+  BarChart3,
   CloudCog,
   Code2,
   Database,
@@ -10,14 +10,14 @@ import {
   FileSearch,
   Gauge,
   GraduationCap,
+  Grid3x3,
   Headset,
   HeartPulse,
   Landmark,
   Layers3,
   Lightbulb,
   MessageCircle,
-  MonitorCog,
-  PanelsTopLeft,
+  Monitor,
   PenTool,
   RefreshCw,
   Rocket,
@@ -55,11 +55,11 @@ export const industryIcons = {
   'Startups & Enterprises': Rocket
 }
 
-export const capabilityIcons = [MonitorCog, BrainCircuit, CloudCog, ChartNoAxesCombined, ShieldCheck, ServerCog]
-export const whyIcons = [BriefcaseBusiness, Layers3, RefreshCw, ShieldCheck]
-export const transformationIcons = [Search, Target, PanelsTopLeft, Code2, Gauge]
+export const capabilityIcons = [Monitor, BrainCircuit, CloudCog, BarChart3, ShieldCheck, ServerCog]
+export const whyIcons = [Briefcase, Layers3, RefreshCw, ShieldCheck]
+export const transformationIcons = [Search, Target, Grid3x3, Code2, Gauge]
 export const approachIcons = [Search, FileSearch, PenTool, Code2, Workflow, RefreshCw]
-export const valueIcons = [Lightbulb, UsersRound, ChartNoAxesCombined, ShieldCheck]
+export const valueIcons = [Lightbulb, UsersRound, BarChart3, ShieldCheck]
 export const contactStepIcons = [FileSearch, MessageCircle, Lightbulb]
 
 export function getServiceIcon(title) {
